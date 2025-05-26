@@ -1,1 +1,17 @@
-<p>sidebar works!</p>
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="toggle-btn" (click)="toggleSidebar()">&#9776;</div>
+  <nav class="nav-links">
+    <a
+      routerLink="/user/home"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Dashboard</a
+    >
+    <a
+      routerLink="/user/history"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >History</a
+    >
+  </nav>
+</aside>

@@ -7,10 +7,16 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit',
-  imports: [SidebarComponent, HeaderComponent, CommonModule, FormsModule],
+  selector: 'app-view',
+  imports: [CommonModule, HeaderComponent, SidebarComponent, FormsModule],
   standalone: true,
-  templateUrl: './edit.component.html',
-  styleUrl: './edit.component.css',
+  templateUrl: './view.component.html',
+  styleUrl: './view.component.css',
 })
-export class EditComponent {}
+export class ViewComponent {
+  constructor(private router: Router) {}
+
+  goToEditProfile() {
+    this.router.navigate(['/admin/edit']);
+  }
+}

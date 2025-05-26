@@ -17,6 +17,10 @@
       <mat-error *ngIf="loginForm.get('password')?.hasError('required')"
         >Password is required</mat-error
       >
+      <mat-error *ngIf="loginForm.get('password')?.hasError('pattern')"
+        >Password must be at least 6 characters and include an uppercase,
+        lowercase, number, and special character.</mat-error
+      >
     </mat-form-field>
 
     <button mat-raised-button color="primary" type="submit" class="full-width">

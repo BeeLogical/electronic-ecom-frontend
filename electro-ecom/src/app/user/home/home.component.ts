@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AppApiService } from '../../app-api.service';
+import { HeaderComponent } from '../header/header.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent, SidebarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -14,21 +16,19 @@ export class HomeComponent {
   products = [
     {
       id: 1,
-      name: 'Wireless Mouse',
-      price: 499,
-      image: 'https://via.placeholder.com/250x150?text=Wireless+Mouse',
+      name: 'Wireless Headphones',
+      price: 129.99,
+      description: 'Noise cancelling over-ear headphones.',
+      imageUrl: '/assets/images/product1.jpg',
+      stock: 12,
     },
     {
       id: 2,
-      name: 'Bluetooth Headphones',
-      price: 1299,
-      image: 'https://via.placeholder.com/250x150?text=Headphones',
-    },
-    {
-      id: 3,
-      name: 'USB-C Charger',
-      price: 699,
-      image: 'https://via.placeholder.com/250x150?text=USB-C+Charger',
+      name: 'Smart Watch',
+      price: 199.99,
+      description: 'Fitness tracker with heart rate monitor.',
+      imageUrl: '/assets/images/product2.jpg',
+      stock: 8,
     },
   ];
   addToCart(product: any) {

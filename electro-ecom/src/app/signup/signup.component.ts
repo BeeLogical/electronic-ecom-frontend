@@ -5,6 +5,8 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,13 +29,46 @@ export class SignupComponent {
   signupForm: FormGroup;
 
   constructor(private fb: FormBuilder, private api: AppApiService) {
-    this.signupForm = this.fb.group({
-      name: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      confirm_password: ['', [Validators.required]],
-    });
+    this.signupForm = this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/
+            ),
+          ],
+        ],
+        confirm_password: ['', [Validators.required]],
+      },
+      {
+        validator: this.matchPasswords('password', 'confirm_password'),
+      }
+    );
+  }
+  matchPasswords(passwordKey: string, confirmPasswordKey: string) {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const password = group.get(passwordKey)?.value;
+      const confirmPassword = group.get(confirmPasswordKey)?.value;
+
+      if (password !== confirmPassword) {
+        group.get(confirmPasswordKey)?.setErrors({ passwordMismatch: true });
+        return { passwordMismatch: true };
+      } else {
+        const errors = group.get(confirmPasswordKey)?.errors;
+        if (errors) {
+          delete errors['passwordMismatch'];
+          if (Object.keys(errors).length === 0) {
+            group.get(confirmPasswordKey)?.setErrors(null);
+          }
+        }
+        return null;
+      }
+    };
   }
 
   onSubmit() {
@@ -42,17 +77,27 @@ export class SignupComponent {
       return;
     }
     const formData = this.signupForm.value;
-    console.log('Form Data:', formData);
-    // Here you can handle the form submission, e.g., send it to a server
-    // this.authService.login(formData).subscribe(
-    //   (response) => {
-    //     console.log('Login successful', response);
-    //     // Handle successful login, e.g., redirect to another page
-    //   },
-    //   (error) => {
-    //     console.error('Login failed', error);
-    //     // Handle login error, e.g., show an error message
-    //   }
-    // );
+    formData.id = 0;
+    formData.status = 'active';
+    formData.role = 'User';
+    const payload = {
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      password: formData.password,
+      id: formData.id,
+      status: formData.status,
+      role: formData.role,
+    };
+
+    this.api.signup(payload).subscribe({
+      next: (response) => {
+        this.signupForm.reset();
+        alert('Signup successful! Please login.');
+      },
+      error: (error) => {
+        alert(error.error.message);
+      },
+    });
   }
 }

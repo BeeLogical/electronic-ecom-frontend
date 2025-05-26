@@ -9,6 +9,8 @@ import { ListComponent as RegionListComponent } from './region/list/list.compone
 import { EditComponent as RegionEditComponent } from './region/edit/edit.component';
 import { ListComponent as UserListComponent } from './user/list/list.component';
 import { ListComponent as SalesTransactionListComponent } from './sales-transaction/list/list.component';
+import { ViewComponent } from './profile/view/view.component';
+import { EditComponent } from './profile/edit/edit.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'region-edit', component: RegionEditComponent },
   { path: 'region-list', component: RegionListComponent },
   { path: 'region-create', component: RegionCreateComponent },
+  { path: 'view', component: ViewComponent },
+  { path: 'edit', component: EditComponent },
 ];
 
 @NgModule({

@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { AppApiService } from '../../../app-api.service';
+import { HeaderComponent } from '../../header/header.component';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-list',
-  imports: [],
+  imports: [CommonModule, HeaderComponent, SidebarComponent],
+  standalone: true,
   templateUrl: './list.component.html',
-  styleUrl: './list.component.css'
+  styleUrl: './list.component.css',
 })
-export class ListComponent {
-
-}
+export class ListComponent {}

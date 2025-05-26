@@ -28,7 +28,7 @@
       <mat-error *ngIf="signupForm.get('phone')?.hasError('required')"
         >Phone is required</mat-error
       >
-      <mat-error *ngIf="signupForm.get('phone')?.hasError('phone')"
+      <mat-error *ngIf="signupForm.get('phone')?.hasError('pattern')"
         >Enter a valid phone</mat-error
       >
     </mat-form-field>
@@ -39,6 +39,10 @@
       <mat-error *ngIf="signupForm.get('password')?.hasError('required')"
         >Password is required</mat-error
       >
+      <mat-error *ngIf="signupForm.get('password')?.hasError('pattern')"
+        >Password must be at least 6 characters and include an uppercase,
+        lowercase, number, and special character.</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
@@ -47,6 +51,10 @@
       <mat-error
         *ngIf="signupForm.get('confirm_password')?.hasError('required')"
         >Confirm Password is required</mat-error
+      >
+      <mat-error
+        *ngIf="signupForm.get('confirm_password')?.hasError('passwordMismatch')"
+        >Passwords do not match.</mat-error
       >
     </mat-form-field>
 

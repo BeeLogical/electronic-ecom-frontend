@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -27,10 +28,22 @@ import { AppApiService } from '../app-api.service';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: AppApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/
+          ),
+        ],
+      ],
     });
   }
 
@@ -41,16 +54,21 @@ export class LoginComponent {
     }
     const formData = this.loginForm.value;
     console.log('Form Data:', formData);
-    // Here you can handle the form submission, e.g., send it to a server
-    // this.authService.login(formData).subscribe(
-    //   (response) => {
-    //     console.log('Login successful', response);
-    //     // Handle successful login, e.g., redirect to another page
-    //   },
-    //   (error) => {
-    //     console.error('Login failed', error);
-    //     // Handle login error, e.g., show an error message
-    //   }
-    // );
+    this.api.login(formData).subscribe({
+      next: (response: any) => {
+        this.loginForm.reset();
+        alert('Login successful!');
+        localStorage.setItem('accessToken', response.token);
+        localStorage.setItem('role', response.role);
+        if (response.role === 'Admin') {
+          this.router.navigateByUrl('/admin/home');
+        } else if (response.role === 'User') {
+          this.router.navigateByUrl('/user/home');
+        }
+      },
+      error: (error) => {
+        alert(error.error.message);
+      },
+    });
   }
 }

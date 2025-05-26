@@ -1,1 +1,26 @@
-<p>header works!</p>
+<header class="header">
+  <div class="logo">Electro Store</div>
+  <nav class="nav-links">
+    <div
+      class="profile-wrapper"
+      (click)="toggleDropdown()"
+      tabindex="0"
+      (blur)="closeDropdown()"
+    >
+      <img
+        src="images/default-profile-picture-avatar-user.jpg"
+        alt="User Profile"
+        class="profile-picture"
+      />
+
+      <div
+        class="dropdown-menu"
+        *ngIf="dropdownOpen"
+        (click)="$event.stopPropagation()"
+      >
+        <a (click)="viewProfile()">Profile</a>
+        <a (click)="logout()">Logout</a>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -41,4 +41,8 @@ export class AppApiService {
     const httpOptions = this.getHttpOptions();
     return this.http.post(this.url + 'Auth/login', request, httpOptions);
   }
+  signup(request: any) {
+    const httpOptions = this.getHttpOptions();
+    return this.http.post(this.url + 'Users', request, httpOptions);
+  }
 }
