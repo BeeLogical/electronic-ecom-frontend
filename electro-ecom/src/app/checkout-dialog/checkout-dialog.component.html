@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Confirm Payment</h2>
+<mat-dialog-content
+  >Please pay the total amount {{ data.total }}?</mat-dialog-content
+>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" class="button-no" mat-dialog-close>
+    No
+  </button>
+  <button
+    mat-raised-button
+    color="warn"
+    class="button-yes"
+    [mat-dialog-close]="true"
+  >
+    Yes
+  </button>
+</mat-dialog-actions>

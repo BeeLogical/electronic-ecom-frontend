@@ -1,5 +1,11 @@
 <header class="header">
   <div class="logo">Electro Store</div>
+  <div class="cart-icon-container">
+    <a routerLink="/user/cart" class="cart-link">
+      🛒
+      <span class="badge">{{ cartCount }}</span>
+    </a>
+  </div>
   <nav class="nav-links">
     <div
       class="profile-wrapper"

@@ -1,5 +1,107 @@
 <app-header></app-header>
 <div class="layout">
   <app-sidebar></app-sidebar>
-  <main class="main-content"></main>
+  <main class="main-content">
+    <h1>Product Edit</h1>
+    <form
+      [formGroup]="editProductForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+    >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+        <mat-error *ngIf="editProductForm.get('name')?.hasError('required')"
+          >Product name is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Region</mat-label>
+        <mat-select formControlName="region">
+          <mat-option *ngFor="let region of regions" [value]="region.id">{{
+            region.name
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="editProductForm.get('region')?.hasError('required')"
+          >Region is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" type="text" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" type="number" />
+        <mat-error *ngIf="editProductForm.get('price')?.hasError('required')"
+          >Price is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Quantity</mat-label>
+        <input matInput formControlName="quantity" type="number" />
+        <mat-error *ngIf="editProductForm.get('quantity')?.hasError('required')"
+          >Quantity is required</mat-error
+        >
+      </mat-form-field>
+      <div *ngIf="imagePreviewUrl" style="margin-top: 1rem">
+        <img
+          [src]="`http://localhost:5276/${imagePreviewUrl}`"
+          alt="Preview"
+          style="max-width: 100%; height: auto"
+        />
+      </div>
+      <div class="file-upload-container" [formGroup]="editProductForm">
+        <label for="fileUpload">Product Image</label>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="fileInput.click()"
+          class="uploadBtn"
+        >
+          Choose File
+        </button>
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          hidden
+          #fileInput
+          (change)="onFileChange($event)"
+        />
+        <div *ngIf="selectedFileName" style="margin-top: 8px">
+          Selected: {{ selectedFileName }}
+        </div>
+        <mat-error
+          *ngIf="
+            editProductForm.get('image')?.hasError('required') &&
+            editProductForm.get('image')?.touched
+          "
+        >
+          Product image is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            editProductForm.get('image')?.hasError('invalidFileType') &&
+            editProductForm.get('image')?.touched
+          "
+        >
+          Invalid file type. Only JPG and PNG are allowed.
+        </mat-error>
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="full-width"
+      >
+        Submit
+      </button>
+    </form>
+  </main>
 </div>

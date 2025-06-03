@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './history/history.component';
 import { ViewComponent } from './profile/view/view.component';
 import { EditComponent } from './profile/edit/edit.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { EditComponent } from './profile/edit/edit.component';
     HistoryComponent,
     ViewComponent,
     EditComponent,
+    CartComponent,
   ],
 })
 export class UserModule {}

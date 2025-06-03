@@ -35,3 +35,17 @@ button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
 }
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 500px;
+  margin: auto;
+  padding: 24px;
+  background-color: #f5faff;
+  border-radius: 8px;
+}
+
+.form-field {
+  width: 100%;
+}

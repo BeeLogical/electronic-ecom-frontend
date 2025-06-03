@@ -11,10 +11,13 @@
 }
 .main-content {
   margin-left: 220px;
-  padding: 20px;
+  /* padding: 20px; */
   width: calc(100% - 220px);
   background-color: #e3f2fd;
   min-height: calc(100vh - 60px);
+}
+.main-content h1 {
+  margin-top: -10px;
 }
 
 .sidebar.collapsed + .main-content {
@@ -34,4 +37,17 @@ button {
 button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
 }

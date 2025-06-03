@@ -1,0 +1,227 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #e3f2fd;
+  padding: 40px 20px;
+}
+
+.layout {
+  display: flex;
+  margin-top: 60px;
+}
+.main-content {
+  margin-left: 220px;
+  padding: 20px;
+  width: calc(100% - 220px);
+  background-color: #e3f2fd;
+  min-height: calc(100vh - 60px);
+}
+
+.sidebar.collapsed + .main-content {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.cart-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.cart-item-details {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+.cart-item-details h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.cart-item-details p {
+  margin: 5px 0;
+  color: #666;
+}
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+}
+.cart-item-actions button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cart-item-actions button:hover {
+  background-color: #1565c0;
+}
+.cart-summary {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+.cart-summary h2 {
+  margin-top: 0;
+}
+.cart-summary p {
+  margin: 5px 0;
+  font-size: 18px;
+}
+.cart-summary .total {
+  font-weight: bold;
+  font-size: 20px;
+  color: #1976d2;
+}
+.cart-summary button {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.cart-summary button:hover {
+  background-color: #1565c0;
+}
+.cart-empty {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #666;
+}
+.cart-empty img {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+}
+.cart-empty p {
+  margin: 0;
+}
+.cart-empty a {
+  color: #1976d2;
+  text-decoration: none;
+}
+.cart-empty a:hover {
+  text-decoration: underline;
+}
+.cart-empty a:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.5);
+}
+.cart-empty a:active {
+  color: #1565c0;
+}
+.cart-empty a:visited {
+  color: #0d47a1;
+}
+.cart-empty a:visited:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.5);
+}
+.cart-empty a:visited:active {
+  color: #0d47a1;
+}
+.cart-empty a:visited:focus:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active {
+  color: #0d47a1;
+}
+.cart-empty a:visited:focus:active:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.5);
+}
+.cart-empty a:visited:focus:active:focus:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active:focus:active {
+  color: #0d47a1;
+}
+.cart-empty a:visited:focus:active:focus:active:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active:focus:active:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.5);
+}
+.cart-empty a:visited:focus:active:focus:active:active {
+  color: #0d47a1;
+}
+.cart-empty a:visited:focus:active:focus:active:active:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active:focus:active:active:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.5);
+}
+.cart-empty a:visited:focus:active:focus:active:active:active {
+  color: #0d47a1;
+}
+.cart-empty a:visited:focus:active:focus:active:active:active:hover {
+  text-decoration: underline;
+}
+.cart-empty a:visited:focus:active:focus:active:active:active:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.5);
+}
+.cart-empty a:visited:focus:active:focus:active:active:active:active {
+  color: #0d47a1;
+}
+.checkout-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #1976d2;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.checkout-button:hover {
+  background-color: #1565c0;
+}
+.remove-button {
+  background-color: #d32f2f;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.remove-button:hover {
+  background-color: #c62828;
+}
+.remove-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.5);
+}
+.remove-button:active {
+  background-color: #b71c1c;
+}
+.remove-button:visited {
+  color: #fff;
+}
+.remove-button:visited:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.remove-button:visited:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.5);
+}

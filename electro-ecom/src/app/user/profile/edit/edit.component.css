@@ -3,6 +3,8 @@
   min-height: 100vh;
   background-color: #e3f2fd;
   padding: 40px 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .layout {
@@ -10,13 +12,17 @@
   margin-top: 60px;
 }
 .main-content {
-  margin-left: 220px;
+  margin-left: 460px;
   padding: 20px;
   width: calc(100% - 220px);
   background-color: #e3f2fd;
   min-height: calc(100vh - 60px);
+  margin-top: -50px;
 }
 
+.main-content h1 {
+  margin-left: -250px;
+}
 .sidebar.collapsed + .main-content {
   margin-left: 60px;
   width: calc(100% - 60px);
@@ -34,4 +40,23 @@ button {
 button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin-left: -200px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.uploadBtn {
+  margin-bottom: 5px;
+  margin-left: 10px;
 }

@@ -1,0 +1,29 @@
+<app-header></app-header>
+<div class="layout">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <h1>Role Add</h1>
+    <form
+      [formGroup]="roleForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+    >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+        <mat-error *ngIf="roleForm.get('name')?.hasError('required')"
+          >Role name is required</mat-error
+        >
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="full-width"
+      >
+        Submit
+      </button>
+    </form>
+  </main>
+</div>

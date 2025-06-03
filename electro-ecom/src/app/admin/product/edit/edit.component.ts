@@ -1,15 +1,138 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AppApiService } from '../../../app-api.service';
 import { HeaderComponent } from '../../header/header.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidatorFn,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+interface Region {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-edit',
-  imports: [CommonModule, HeaderComponent, SidebarComponent],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    CommonModule,
+    HeaderComponent,
+    SidebarComponent,
+    MatSelectModule,
+  ],
   standalone: true,
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
 })
-export class EditComponent {}
+export class EditComponent implements OnInit {
+  editProductForm: FormGroup;
+  regions: Region[] = [];
+  selectedFileName: string | null = null;
+  imagePreviewUrl: string | null = null;
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private route: ActivatedRoute
+  ) {
+    this.editProductForm = this.fb.group({
+      name: ['', [Validators.required]],
+      description: ['', []],
+      price: ['', [Validators.required, Validators.min(0)]],
+      quantity: ['', [Validators.required, Validators.min(0)]],
+      region: ['', [Validators.required]],
+      image: [null, [fileTypeValidator(['image/png', 'image/jpeg'])]],
+    });
+  }
+  ngOnInit() {
+    const productId = this.route.snapshot.paramMap.get('id');
+    this.api.getRegions().subscribe({
+      next: (res: any) => {
+        this.regions = res;
+      },
+      error: (err) => {
+        console.error('Error fetching regions', err);
+      },
+    });
+    if (productId) {
+      this.api.getProductById(productId).subscribe({
+        next: (product: any) => {
+          this.editProductForm.patchValue({
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            quantity: product.quantity,
+            region: product.regionId,
+          });
+          this.imagePreviewUrl = product.imagePath || null;
+        },
+        error: (err) => {
+          console.error('Error fetching product', err);
+        },
+      });
+    }
+  }
+  onSubmit() {
+    if (this.editProductForm.invalid) {
+      this.editProductForm.markAllAsTouched();
+      return;
+    }
+
+    const productId = this.route.snapshot.paramMap.get('id');
+    if (!productId) {
+      console.error('Product ID is missing');
+      return;
+    }
+    const formData = new FormData();
+
+    Object.keys(this.editProductForm.controls).forEach((key) => {
+      const value = this.editProductForm.get(key)?.value;
+      formData.append(key, value);
+    });
+    formData.append('regionId', this.editProductForm.get('region')?.value);
+    formData.append('id', productId);
+    this.api.updateProduct(productId, formData).subscribe({
+      next: (res) => {
+        alert('Product updated successfully');
+      },
+      error: (err) => {
+        console.error('Error updating product', err);
+      },
+    });
+  }
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFileName = file.name;
+      this.editProductForm.patchValue({
+        image: file,
+      });
+
+      const control = this.editProductForm.get('image');
+      control?.markAsTouched();
+      control?.updateValueAndValidity();
+    }
+  }
+}
+function fileTypeValidator(allowedTypes: string[]): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const file = control.value;
+
+    if (!file) return null;
+
+    const isValidType = allowedTypes.includes(file.type);
+    return isValidType ? null : { invalidFileType: true };
+  };
+}

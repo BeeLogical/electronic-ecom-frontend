@@ -5,5 +5,26 @@
     <button class="edit-profile-btn" (click)="goToEditProfile()">
       Edit Profile
     </button>
+    <form [formGroup]="viewForm" class="profile-form">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" type="text" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Role</mat-label>
+        <input matInput formControlName="role" type="text" />
+      </mat-form-field>
+    </form>
   </main>
 </div>

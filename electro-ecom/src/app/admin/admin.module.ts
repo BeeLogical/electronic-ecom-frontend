@@ -10,6 +10,10 @@ import { ListComponent as RegionListComponent } from './region/list/list.compone
 import { EditComponent as RegionEditComponent } from './region/edit/edit.component';
 import { ListComponent as UserListComponent } from './user/list/list.component';
 import { ListComponent as SalesTransactionListComponent } from './sales-transaction/list/list.component';
+import { EditComponent as UserEditComponent } from './user/edit/edit.component';
+import { ListComponent as RoleListComponent } from './role/list/list.component';
+import { EditComponent as RoleEditComponent } from './role/edit/edit.component';
+import { CreateComponent as RoleCreateComponent } from './role/create/create.component';
 
 @NgModule({
   declarations: [],
@@ -25,6 +29,10 @@ import { ListComponent as SalesTransactionListComponent } from './sales-transact
     RegionEditComponent,
     UserListComponent,
     SalesTransactionListComponent,
+    UserEditComponent,
+    RoleListComponent,
+    RoleEditComponent,
+    RoleCreateComponent,
   ],
 })
 export class AdminModule {}

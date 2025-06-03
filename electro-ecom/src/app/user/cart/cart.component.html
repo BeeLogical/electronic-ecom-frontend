@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="layout">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <h2>Your Cart</h2>
+    <div *ngFor="let item of cartItems">
+      <div class="cart-item">
+        <span>{{ item.name }}</span> - <span>₹{{ item.price }}</span> x
+        <input
+          type="number"
+          min="1"
+          [max]="item.maxQuantity || 100"
+          [(ngModel)]="item.selectedQty"
+          (change)="updateQuantity(item)"
+        />
+        = <strong>₹{{ item.price * item.selectedQty }}</strong>
+
+        <button (click)="removeItem(item.id)" class="remove-button">
+          Remove
+        </button>
+      </div>
+    </div>
+    <div class="cart-total">
+      <strong>Total: ₹{{ cartTotal }}</strong>
+      <button (click)="checkout(cartTotal.toString())" class="checkout-button">
+        Checkout
+      </button>
+    </div>
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <p>Your cart is empty.</p>
+    </div>
+  </main>
+</div>
