@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create',
   imports: [
@@ -33,7 +33,11 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class CreateComponent implements OnInit {
   regionForm: FormGroup;
-  constructor(private fb: FormBuilder, private api: AppApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private router: Router
+  ) {
     this.regionForm = this.fb.group({
       name: ['', [Validators.required]],
     });
@@ -53,15 +57,34 @@ export class CreateComponent implements OnInit {
       });
       this.api.createRegion(formData).subscribe({
         next: (res) => {
-          alert('Region created successfully');
           this.regionForm.reset();
+          Swal.fire({
+            title: 'Success',
+            text: 'Region created successfully',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.router.navigate(['/admin/region-list']);
+          });
         },
         error: (err) => {
           console.error('Error creating region', err);
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to create region. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
         },
       });
     } else {
       console.error('Form is invalid');
+      Swal.fire({
+        title: 'Error',
+        text: 'Please fill in all required fields.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
     }
   }
 }

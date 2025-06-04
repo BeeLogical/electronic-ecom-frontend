@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create',
@@ -33,7 +34,11 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class CreateComponent implements OnInit {
   roleForm: FormGroup;
-  constructor(private fb: FormBuilder, private api: AppApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private router: Router
+  ) {
     this.roleForm = this.fb.group({
       name: ['', [Validators.required]],
     });
@@ -53,15 +58,34 @@ export class CreateComponent implements OnInit {
       });
       this.api.createRole(formData).subscribe({
         next: (res) => {
-          alert('Role created successfully');
           this.roleForm.reset();
+          Swal.fire({
+            icon: 'success',
+            title: 'Role Created',
+            text: 'The role has been created successfully.',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.router.navigate(['/admin/role-list']);
+          });
         },
         error: (err) => {
           console.error('Error creating role', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to create role. Please try again later.',
+            confirmButtonText: 'OK',
+          });
         },
       });
     } else {
       console.error('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill in all required fields correctly.',
+        confirmButtonText: 'OK',
+      });
     }
   }
 }

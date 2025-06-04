@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 interface Region {
   id: number;
   name: string;
@@ -40,10 +41,14 @@ export class CreateComponent implements OnInit {
   productForm: FormGroup;
   regions: Region[] = [];
   selectedFileName: string | null = null;
-  constructor(private fb: FormBuilder, private api: AppApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private router: Router
+  ) {
     this.productForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: ['', []],
+      description: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
       quantity: ['', [Validators.required, Validators.min(0)]],
       region: ['', [Validators.required]],
@@ -60,6 +65,12 @@ export class CreateComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching regions', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to load regions. Please try again later.',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }
@@ -88,15 +99,34 @@ export class CreateComponent implements OnInit {
       this.api.createProduct(formData).subscribe({
         next: (res) => {
           console.log('Product created successfully', res);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Product created successfully!',
+            confirmButtonText: 'OK',
+          });
           this.productForm.reset();
           this.selectedFileName = null;
+          this.router.navigate(['/admin/product-list']);
         },
         error: (err) => {
           console.error('Error creating product', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to create product. Please try again later.',
+            confirmButtonText: 'OK',
+          });
         },
       });
     } else {
       console.error('Form is invalid');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill out all required fields correctly.',
+        confirmButtonText: 'OK',
+      });
     }
   }
   onFileChange(event: any) {

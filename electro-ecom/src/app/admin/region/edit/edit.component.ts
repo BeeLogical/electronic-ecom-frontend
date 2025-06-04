@@ -9,13 +9,12 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
-  AbstractControl,
-  ValidatorFn,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit',
@@ -38,7 +37,8 @@ export class EditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.editRegionForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -55,6 +55,12 @@ export class EditComponent implements OnInit {
           });
         },
         error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to fetch region details. Please try again later.',
+            confirmButtonText: 'OK',
+          });
           console.error('Error fetching region', err);
         },
       });
@@ -69,6 +75,12 @@ export class EditComponent implements OnInit {
     const regionId = this.route.snapshot.paramMap.get('id');
     if (!regionId) {
       console.error('Region ID is missing');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Region ID is missing. Please try again.',
+        confirmButtonText: 'OK',
+      });
       return;
     }
     const formData = new FormData();
@@ -80,10 +92,24 @@ export class EditComponent implements OnInit {
     formData.append('id', regionId);
     this.api.updateRegions(regionId, formData).subscribe({
       next: (res) => {
-        alert('Region updated successfully');
+        this.editRegionForm.reset();
+        Swal.fire({
+          title: 'Success',
+          text: 'Region updated successfully',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          this.router.navigate(['/admin/region-list']);
+        });
       },
       error: (err) => {
         console.error('Error updating region', err);
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to update region. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }

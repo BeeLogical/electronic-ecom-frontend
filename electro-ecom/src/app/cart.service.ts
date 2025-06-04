@@ -47,4 +47,8 @@ export class CartService {
     const count = this.getCartCount();
     this.cartCountSubject.next(count);
   }
+  clearCart() {
+    this.cartItems = [];
+    this.updateCartCount();
+  }
 }

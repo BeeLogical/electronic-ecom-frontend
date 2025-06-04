@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { AppApiService } from '../../app-api.service';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CartService } from '../../cart.service';
 import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { CheckoutDialogComponent } from '../../checkout-dialog/checkout-dialog.component';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   imports: [CommonModule, HeaderComponent, SidebarComponent, FormsModule],
@@ -19,8 +18,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private dialog: MatDialog,
-    private api: AppApiService
+    private api: AppApiService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,15 +41,23 @@ export class CartComponent implements OnInit {
   }
   checkout(total: string) {
     if (this.cartItems.length === 0) {
-      alert('Your cart is empty!');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Your cart is empty.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
       return;
     }
-    const dialogRef = this.dialog.open(CheckoutDialogComponent, {
-      data: { total: total },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to proceed with checkout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Checkout',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
           this.api.getUsersByToken({ token: accessToken }).subscribe(
@@ -80,15 +87,30 @@ export class CartComponent implements OnInit {
                   `transactionDto[${index}].SaleStatus`,
                   'completed'
                 );
+                formData.append(
+                  `transactionDto[${index}].RegionId`,
+                  item.regionId.toString()
+                );
               });
               this.api.cartCheckout(formData).subscribe({
                 next: () => {
-                  alert('Checkout successful!');
-                  this.cartService.getCartItems().length = 0;
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Checkout Successful!',
+                    text: 'Your order has been placed.',
+                    confirmButtonText: 'OK',
+                  });
+                  this.cartService.clearCart();
                   this.cartItems = [];
+                  this.router.navigateByUrl('/user/home');
                 },
                 error: (err) => {
                   console.error('Error', err);
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Checkout Failed',
+                    text: 'Something went wrong. Please try again later.',
+                  });
                 },
               });
             },

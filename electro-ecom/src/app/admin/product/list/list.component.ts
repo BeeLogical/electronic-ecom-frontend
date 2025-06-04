@@ -9,8 +9,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.component';
+import Swal from 'sweetalert2';
 export interface ProductData {
   id: number | string;
   name: string;
@@ -53,11 +52,7 @@ export class ListComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
 
-  constructor(
-    private api: AppApiService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
+  constructor(private api: AppApiService, private router: Router) {}
 
   ngOnInit() {
     this.api.getProducts().subscribe({
@@ -66,6 +61,12 @@ export class ListComponent implements AfterViewInit {
       },
       error: (err: any) => {
         console.error('Failed to load products:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to load products. Please try again later.',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }
@@ -91,21 +92,36 @@ export class ListComponent implements AfterViewInit {
     );
   }
   deleteProduct(id: any, productName: string) {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { name: productName },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to delete ${productName}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
         this.api.deleteProduct(id).subscribe({
           next: () => {
-            alert('Deleted');
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted',
+              text: `${productName} has been deleted successfully.`,
+              confirmButtonText: 'OK',
+            });
             this.dataSource.data = this.dataSource.data.filter(
               (p) => p.id !== id
             );
           },
           error: (err) => {
             console.error('Error', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: `Failed to delete ${productName}. Please try again later.`,
+              confirmButtonText: 'OK',
+            });
           },
         });
       }

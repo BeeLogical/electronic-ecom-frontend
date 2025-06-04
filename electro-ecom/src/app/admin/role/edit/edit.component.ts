@@ -9,13 +9,12 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
-  AbstractControl,
-  ValidatorFn,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit',
@@ -38,7 +37,8 @@ export class EditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.editRoleForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -56,6 +56,12 @@ export class EditComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching role', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to load role. Please try again later.',
+            confirmButtonText: 'OK',
+          });
         },
       });
     }
@@ -69,6 +75,12 @@ export class EditComponent implements OnInit {
     const roleId = this.route.snapshot.paramMap.get('id');
     if (!roleId) {
       console.error('Role ID is missing');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Role ID is missing. Please try again.',
+        confirmButtonText: 'OK',
+      });
       return;
     }
     const formData = new FormData();
@@ -80,10 +92,24 @@ export class EditComponent implements OnInit {
     formData.append('id', roleId);
     this.api.updateRoles(roleId, formData).subscribe({
       next: (res) => {
-        alert('Role updated successfully');
+        this.editRoleForm.reset();
+        Swal.fire({
+          icon: 'success',
+          title: 'Role Updated',
+          text: 'The role has been updated successfully.',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          this.router.navigate(['/admin/role-list']);
+        });
       },
       error: (err) => {
         console.error('Error updating role', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update role. Please try again later.',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }

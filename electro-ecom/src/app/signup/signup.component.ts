@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AppApiService } from '../app-api.service';
+import { RouterModule, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -21,6 +23,7 @@ import { AppApiService } from '../app-api.service';
     MatInputModule,
     MatButtonModule,
     CommonModule,
+    RouterModule,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
@@ -28,7 +31,11 @@ import { AppApiService } from '../app-api.service';
 export class SignupComponent {
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: AppApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private api: AppApiService,
+    private router: Router
+  ) {
     this.signupForm = this.fb.group(
       {
         name: ['', [Validators.required]],
@@ -93,10 +100,22 @@ export class SignupComponent {
     this.api.signup(payload).subscribe({
       next: (response) => {
         this.signupForm.reset();
-        alert('Signup successful! Please login.');
+        Swal.fire({
+          title: 'Success!',
+          text: 'Registration successful. Please log in.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          this.router.navigateByUrl('/login');
+        });
       },
       error: (error) => {
-        alert(error.error.message);
+        Swal.fire({
+          title: 'Error!',
+          text: error.error.message || 'Login failed. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }

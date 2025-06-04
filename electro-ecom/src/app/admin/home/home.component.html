@@ -1,5 +1,34 @@
 <app-header></app-header>
 <div class="layout">
   <app-sidebar></app-sidebar>
-  <main class="main-content"></main>
+  <main class="main-content">
+    <div>
+      <h1>Welcome to Admin Panel</h1>
+    </div>
+    <div class="dashboard-grid">
+      <mat-card>
+        <h3>Product-wise Sales</h3>
+        <canvas baseChart [data]="productChart" [type]="'bar'"></canvas>
+      </mat-card>
+
+      <mat-card>
+        <h3>Region-wise Sales</h3>
+        <canvas baseChart [data]="regionChart" [type]="'pie'"></canvas>
+      </mat-card>
+
+      <mat-card>
+        <h3>Region-wise Product Sales</h3>
+        <canvas
+          baseChart
+          [data]="regionProductChart"
+          [type]="'doughnut'"
+        ></canvas>
+      </mat-card>
+
+      <mat-card>
+        <h3>Active vs Inactive Users</h3>
+        <canvas baseChart [data]="userChart" [type]="'pie'"></canvas>
+      </mat-card>
+    </div>
+  </main>
 </div>

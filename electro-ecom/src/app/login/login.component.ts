@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AppApiService } from '../app-api.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ import { AppApiService } from '../app-api.service';
     MatInputModule,
     MatButtonModule,
     CommonModule,
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -57,7 +59,6 @@ export class LoginComponent {
     this.api.login(formData).subscribe({
       next: (response: any) => {
         this.loginForm.reset();
-        alert('Login successful!');
         localStorage.setItem('accessToken', response.token);
         localStorage.setItem('role', response.role);
         if (response.role === 'Admin') {
@@ -67,7 +68,12 @@ export class LoginComponent {
         }
       },
       error: (error) => {
-        alert(error.error.message);
+        Swal.fire({
+          title: 'Error!',
+          text: error.error.message || 'Login failed. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }

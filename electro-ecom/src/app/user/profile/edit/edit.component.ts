@@ -9,13 +9,12 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
-  AbstractControl,
-  ValidatorFn,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 interface Role {
   id: number;
   name: string;
@@ -43,7 +42,8 @@ export class EditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.editUserForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -64,6 +64,12 @@ export class EditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching roles', err);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to load roles. Please try again later.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       },
     });
     if (userId) {
@@ -79,6 +85,12 @@ export class EditComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching user', err);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to load profile details. Please try again later.',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
         },
       });
     }
@@ -92,6 +104,12 @@ export class EditComponent implements OnInit {
     const userId = this.route.snapshot.paramMap.get('id');
     if (!userId) {
       console.error('User ID is missing');
+      Swal.fire({
+        title: 'Error!',
+        text: 'User ID is missing. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
       return;
     }
     const formData = new FormData();
@@ -103,10 +121,23 @@ export class EditComponent implements OnInit {
     formData.append('id', userId);
     this.api.updateUser(userId, formData).subscribe({
       next: (res) => {
-        alert('User updated successfully');
+        Swal.fire({
+          title: 'Success!',
+          text: 'Profile details updated successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          this.router.navigate(['/user/view']);
+        });
       },
       error: (err) => {
         console.error('Error updating user', err);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to update profile details. Please try again later.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }

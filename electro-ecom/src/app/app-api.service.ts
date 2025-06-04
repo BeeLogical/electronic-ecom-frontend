@@ -182,4 +182,29 @@ export class AppApiService {
       httpOptions
     );
   }
+  getAllGroupByProduct() {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get(
+      this.url + 'SalesTransactions/GetAllGroupedByProduct',
+      httpOptions
+    );
+  }
+  getAllGroupByRegion() {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get(
+      this.url + 'SalesTransactions/GetAllGroupedByRegion',
+      httpOptions
+    );
+  }
+  getAllGroupByRegionProduct() {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get(
+      this.url + 'SalesTransactions/GetAllGroupedByRegionAndProduct',
+      httpOptions
+    );
+  }
+  getAllUsersStatusWise() {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get(this.url + 'Users', httpOptions);
+  }
 }

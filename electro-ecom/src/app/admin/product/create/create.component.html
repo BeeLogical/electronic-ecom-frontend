@@ -31,6 +31,9 @@
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Description</mat-label>
         <input matInput formControlName="description" type="text" />
+        <mat-error *ngIf="productForm.get('description')?.hasError('required')"
+          >Description is required</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">

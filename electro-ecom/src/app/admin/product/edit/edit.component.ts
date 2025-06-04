@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 interface Region {
   id: number;
   name: string;
@@ -45,11 +46,12 @@ export class EditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.editProductForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: ['', []],
+      description: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
       quantity: ['', [Validators.required, Validators.min(0)]],
       region: ['', [Validators.required]],
@@ -64,6 +66,12 @@ export class EditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching regions', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to load regions. Please try again later.',
+          confirmButtonText: 'OK',
+        });
       },
     });
     if (productId) {
@@ -80,6 +88,12 @@ export class EditComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching product', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to load product details. Please try again later.',
+            confirmButtonText: 'OK',
+          });
         },
       });
     }
@@ -93,6 +107,12 @@ export class EditComponent implements OnInit {
     const productId = this.route.snapshot.paramMap.get('id');
     if (!productId) {
       console.error('Product ID is missing');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Product ID is missing. Please try again.',
+        confirmButtonText: 'OK',
+      });
       return;
     }
     const formData = new FormData();
@@ -105,10 +125,23 @@ export class EditComponent implements OnInit {
     formData.append('id', productId);
     this.api.updateProduct(productId, formData).subscribe({
       next: (res) => {
-        alert('Product updated successfully');
+        //alert('Product updated successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Product updated successfully!',
+          confirmButtonText: 'OK',
+        });
+        this.router.navigate(['/admin/product-list']);
       },
       error: (err) => {
         console.error('Error updating product', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update product. Please try again later.',
+          confirmButtonText: 'OK',
+        });
       },
     });
   }
