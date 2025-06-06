@@ -12,7 +12,7 @@ FROM nginx:stable-alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /app/dist/electro-ecom /usr/share/nginx/html
+COPY --from=build /app/dist/electronic-ecom-frontend /usr/share/nginx/html
 
 # COPY nginx.conf /etc/nginx/nginx.conf
 
