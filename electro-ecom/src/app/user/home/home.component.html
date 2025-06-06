@@ -31,10 +31,7 @@
 
     <div class="product-grid">
       <div class="product-card" *ngFor="let product of products">
-        <img
-          [src]="`http://localhost:5276/${product.imagePath}`"
-          [alt]="product.name"
-        />
+        <img [src]="`${BASE_URL}/${product.imagePath}`" [alt]="product.name" />
         <h3>{{ product.name }}</h3>
         <p>{{ product.description }}</p>
         <div class="price-stock">

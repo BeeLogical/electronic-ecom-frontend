@@ -53,6 +53,7 @@
               mat-raised-button
               color="warn"
               (click)="deleteRegion(row.id, row.name)"
+              [disabled]="row.product != null"
             >
               Delete
             </button>

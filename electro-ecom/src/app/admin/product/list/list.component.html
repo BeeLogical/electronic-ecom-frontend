@@ -77,6 +77,7 @@
               mat-raised-button
               color="warn"
               (click)="deleteProduct(row.id, row.name)"
+              [disabled]="row.salesTransaction?.length"
             >
               Delete
             </button>

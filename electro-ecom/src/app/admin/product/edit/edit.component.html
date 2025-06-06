@@ -54,9 +54,10 @@
       </mat-form-field>
       <div *ngIf="imagePreviewUrl" style="margin-top: 1rem">
         <img
-          [src]="`http://localhost:5276/${imagePreviewUrl}`"
+          [src]="isLocalPreview ? imagePreviewUrl : `${BASE_URL}/${imagePreviewUrl}`"
           alt="Preview"
           style="max-width: 100%; height: auto"
+          class="image-show"
         />
       </div>
       <div class="file-upload-container" [formGroup]="editProductForm">

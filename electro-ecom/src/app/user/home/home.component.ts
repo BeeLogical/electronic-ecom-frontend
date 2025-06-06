@@ -9,10 +9,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../cart.service';
+import { BASE_URL } from '../../constants';
 interface ProductData {
   selectedQty: any;
   id: number;
@@ -47,6 +46,7 @@ interface RegionData {
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  BASE_URL = BASE_URL;
   products: ProductData[] = [];
   regions: RegionData[] = [];
   searchTerm: any;

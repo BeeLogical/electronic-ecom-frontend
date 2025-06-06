@@ -41,6 +41,7 @@ export class CreateComponent implements OnInit {
   productForm: FormGroup;
   regions: Region[] = [];
   selectedFileName: string | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
@@ -137,6 +138,11 @@ export class CreateComponent implements OnInit {
         image: file,
       });
 
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
       const control = this.productForm.get('image');
       control?.markAsTouched();
       control?.updateValueAndValidity();

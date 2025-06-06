@@ -73,6 +73,13 @@
         <div *ngIf="selectedFileName" style="margin-top: 8px">
           Selected: {{ selectedFileName }}
         </div>
+        <img
+          *ngIf="imagePreview"
+          [src]="imagePreview"
+          alt="Preview"
+          width="150"
+          height="auto"
+        />
         <mat-error
           *ngIf="
             productForm.get('image')?.hasError('required') &&

@@ -53,6 +53,7 @@
               mat-raised-button
               color="warn"
               (click)="deleteRole(row.id, row.name)"
+              [disabled]="row.userCount != 0"
             >
               Delete
             </button>

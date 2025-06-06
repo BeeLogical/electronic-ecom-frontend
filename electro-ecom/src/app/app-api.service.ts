@@ -5,12 +5,13 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { BASE_URL } from './constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppApiService {
-  url = 'http://localhost:5276/api/';
+  url = `${BASE_URL}/api/`;
   constructor(private http: HttpClient, private router: Router) {}
   public authToken: any = localStorage.getItem('accessToken') as any;
 

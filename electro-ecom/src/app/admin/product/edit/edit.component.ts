@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import Swal from 'sweetalert2';
+import { BASE_URL } from '../../../constants';
 interface Region {
   id: number;
   name: string;
@@ -39,10 +40,12 @@ interface Region {
   styleUrl: './edit.component.css',
 })
 export class EditComponent implements OnInit {
+  BASE_URL = BASE_URL;
   editProductForm: FormGroup;
   regions: Region[] = [];
   selectedFileName: string | null = null;
   imagePreviewUrl: string | null = null;
+  isLocalPreview = false;
   constructor(
     private fb: FormBuilder,
     private api: AppApiService,
@@ -152,6 +155,13 @@ export class EditComponent implements OnInit {
       this.editProductForm.patchValue({
         image: file,
       });
+
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        this.imagePreviewUrl = URL.createObjectURL(file);
+        this.isLocalPreview = true;
+      }
 
       const control = this.editProductForm.get('image');
       control?.markAsTouched();
