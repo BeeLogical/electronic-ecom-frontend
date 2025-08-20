@@ -5,7 +5,13 @@ nixPkgs = ["nodejs_20", "npm"]
 cmds = ["npm install --legacy-peer-deps"]
 
 [phases.build]
-cmds = ["npm run build -- --configuration production"]
+cmds = [
+  "npm run build -- --configuration production",
+  "cp ./nginx.conf /etc/nginx/nginx.conf"
+]
 
 [start]
-cmd = "npx serve -s dist/electro-ecom/browser -l ${PORT:-3000}"
+cmd = "nginx -g 'daemon off;'"
+
+[variables]
+PORT = "80"
