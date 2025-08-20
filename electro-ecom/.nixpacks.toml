@@ -1,5 +1,5 @@
 [phases.build]
-cmds = ["npm install", "npm run build -- --configuration production"]
+cmds = ["npm install", "npm run build"]
 
 [start]
 cmd = "npm run start"
