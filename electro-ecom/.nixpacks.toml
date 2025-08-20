@@ -1,1 +1,10 @@
+[phases.setup]
+# Install Angular CLI globally so ng works during build
+nixPkgs = ["nodejs_20"]
+
+[phases.build]
+cmds = ["npm install --legacy-peer-deps", "npm run build -- --configuration production"]
+
+[start]
+cmd = "npx serve -s dist/browser -l 3000"
 
