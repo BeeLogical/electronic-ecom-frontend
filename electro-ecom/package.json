@@ -2,9 +2,12 @@
   "name": "electro-ecom",
   "version": "0.0.0",
   "scripts": {
+    "ng": "ng",
     "start": "npx serve -s dist/electro-ecom/browser -l 3000",
-    "build": "ng build --configuration production"
-},
+    "build": "ng build --configuration production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
   "private": true,
   "dependencies": {
     "@angular/cdk": "^19.2.17",
