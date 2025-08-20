@@ -1,5 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm"]
+
+[phases.install]
+cmds = ["npm install --legacy-peer-deps"]
+
 [phases.build]
-cmds = ["npm install", "npm run build"]
+cmds = ["npm run build -- --configuration production"]
 
 [start]
-cmd = "npm run start"
+cmd = "npx serve -s dist/electro-ecom/browser -l ${PORT:-3000}"
