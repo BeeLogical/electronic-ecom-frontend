@@ -8,7 +8,7 @@ cmd = "npm ci"
 cmd = "npm run build"
 
 [phases.start]
-cmd = "npx serve dist/electro-ecom -s -l $PORT"
+cmd = "npm start"
 
 [variables]
 NODE_ENV = "production"
