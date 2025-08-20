@@ -4,6 +4,7 @@
   "scripts": {
     "build": "ng build",
     "start": "node server.js"
+
   },
   "private": true,
   "dependencies": {
