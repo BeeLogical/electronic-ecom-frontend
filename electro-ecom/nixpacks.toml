@@ -2,7 +2,7 @@
 cmds = ['npm ci', 'npm run build']
 
 [phases.start]
-cmd = 'npx serve dist/your-app-name -s -l 3000'
+cmd = 'npx serve dist/electro-ecom -s -l 3000'
 
 [variables]
 NODE_VERSION = "18"
