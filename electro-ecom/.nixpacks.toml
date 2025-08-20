@@ -3,3 +3,6 @@ cmds = ["npm install", "npm run build -- --configuration production"]
 
 [start]
 cmd = "npm run start"
+
+[variables]
+PORT = "3000"
