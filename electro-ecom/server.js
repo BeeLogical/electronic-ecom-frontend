@@ -4,10 +4,10 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from dist directory
+// Serve static files from the Angular build directory
 app.use(express.static(path.join(__dirname, 'dist/electro-ecom')));
 
-// Handle Angular routing
+// Handle Angular routing - serve index.html for all non-API routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/electro-ecom/index.html'));
 });
