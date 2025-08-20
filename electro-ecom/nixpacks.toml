@@ -1,8 +1,14 @@
+[phases.setup]
+nixPkgs = ["nodejs_18", "npm-9_x"]
+
+[phases.install]
+cmd = "npm ci"
+
 [phases.build]
-cmds = ['npm ci', 'npm run build']
+cmd = "npm run build"
 
 [phases.start]
-cmd = 'npx serve dist/electro-ecom -s -l 3000'
+cmd = "npx serve dist/electro-ecom -s -l $PORT"
 
 [variables]
-NODE_VERSION = "18"
+NODE_ENV = "production"
