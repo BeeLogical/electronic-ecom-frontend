@@ -2,11 +2,9 @@
   "name": "electro-ecom",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "npx serve -s dist/electro-ecom/browser -l 3000",
-    "build": "ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build": "ng build",
+    "start": "ng serve",
+    "serve:ssr": "node dist/electro-ecom/server/main.js"
   },
   "private": true,
   "dependencies": {
