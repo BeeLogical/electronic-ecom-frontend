@@ -5,12 +5,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve static files from the Angular build directory
-app.use(express.static(path.join(__dirname, 'dist/electro-ecom')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle Angular routing - serve index.html for all non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/electro-ecom/index.html'));
-});
+//app.get('*', (req, res) => {
+//  res.sendFile(path.join(__dirname, 'dist/electro-ecom/index.html'));
+//});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
